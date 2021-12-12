@@ -57,3 +57,27 @@
 `ng generate component 组件名称`
 
 ![image-20211212085405230](img/image-20211212085405230.png)
+
+
+
+# 四. todomvc案例
+
+- 案例网站
+
+  https://todomvc.com/
+
+- 找到模板文件地址https://github.com/tastejs/todomvc-app-template
+
+  ![image-20211212104411533](img/image-20211212104411533.png)
+
+  ![image-20211212104523299](img/image-20211212104523299.png)
+
+- 下载案例模板,并将模板复制到自己的项目中
+
+  由于模板中的css是已经被打包到模块中,因此需要通过npm手动安装一下
+
+  `npm install todomvc-common todomvc-app-css`
+
+- 在项目中手动引入模块中的CSS样式(全局引入)
+
+  ![image-20211212110018671](img/image-20211212110018671.png)

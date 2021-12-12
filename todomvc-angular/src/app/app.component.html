@@ -1,0 +1,128 @@
+<section class="todoapp">
+  <header class="header">
+    <h1>todos</h1>
+    <!-- 
+      ⏹当我们按下回车键的时候触发addTodo事件,$event是事件对象
+        keyup.enter表示键盘按下并且按下的是enter键的时候才会触发
+     -->
+    <input class="new-todo" (keyup.enter)="addTodo($event)" placeholder="What needs to be done?" autofocus>
+  </header>
+  <!-- 
+    ⏹ng-template [ngIf]="todos.length"
+      使用ng-template配合ngIf进行条件渲染不会额外的多添加一层标签
+      放todos中没有任务数据的时候,section和footer都应该被隐藏掉
+      我们可以给section和footer中都添加 *ngIf="指定条件" 进行条件渲染
+      但是需要写两遍,使用ng-template的话,一遍就可以搞定
+   -->
+  <ng-template [ngIf]="todos.length">
+    <section class="main">
+      <!-- 
+        ⏹[checked]="toggleAll"
+          动态属性绑定,当checkbox被全部选中的时候,toggleAll为true,从而实现全选按钮被选中
+        ⏹(change)="toggleAll = $event.target.checked"
+          当change事件被触发的时候,把toggleAll的属性修改为当前checkbox的选中状态
+          toggleAll在此处不是一个函数,而是一个属性,因此语法不是toggleAll($event.target.checked)
+       -->
+      <input id="toggle-all" class="toggle-all" type="checkbox" 
+        [checked]="toggleAll"
+        (change)="toggleAll = $event.target.checked">
+      <label for="toggle-all">Mark all as complete</label>
+      <ul class="todo-list">
+        <!--
+          ⏹li是每一个任务项
+            每一个任务有三种状态:
+              正常状态: 没有样式
+              完成状态: completed
+              编辑状态: editing
+          ⏹*ngFor="let todo of filterTodos"
+              使用了Angular的for循环表达式
+          ⏹let i = index;
+              循环过程中的索引项
+          ⏹[ngClass]="{completed: todo.done}"
+              使用了Angular中的样式绑定
+              会根据todo.done的布尔值动态的添加或移除completed样式
+          ⏹[ngClass]="{editing: currentEditing === todo}"
+              当currentEditing等于当前todo对象的时候,就应用editing样式
+        -->
+        <li *ngFor="let todo of filterTodos; let i = index;" 
+            [ngClass]="{
+              completed: todo.done,
+              editing: currentEditing === todo
+            }">
+          <div class="view">
+            <!-- 
+              ⏹[(ngModel)]="todo.done"
+                Angular中的双向数据绑定语法,要想使用ngModel,必须导入FormsModule模块
+                该样式会跟随checkbox的选中状态而改变
+             -->
+            <input class="toggle" type="checkbox" [(ngModel)]="todo.done">
+            <!-- 
+              ⏹(dblclick)="currentEditing = todo"
+                  当双击当前label的时候,就把currentEditing值改为当前的todo对象
+             -->
+            <label (dblclick)="currentEditing = todo">{{ todo.title }}</label>
+            <!-- 
+              ⏹(click)="removeTodo(i)"
+                  当被点击的时候,删除当前index所在的行
+             -->
+            <button class="destroy" (click)="removeTodo(i)"></button>
+          </div>
+          <!-- 
+            ⏹[value]="todo.title"
+              属性绑定,当前input标签的value值等于todo对象的title值
+            ⏹(keyup.enter)="saveEdit(todo, $event)"
+              当按下回车键的时候,触发saveEdit函数
+            ⏹(keyup)="handleEditkeyUp($event)"
+              当按下Esc键的时候,触发handleEditkeyUp函数
+            ❗❗当我们按下Esc键的时候会触发handleEditkeyUp函数,
+              但同时input输入框也失去了焦点,也会触发saveEdit事件,进行保存
+              因此我们需要在handleEditkeyUp函数中将文本输入框恢复为原来的值,
+              从而确保调用saveEdit的时候,正确保存数据
+           -->
+          <input class="edit" 
+            [value]="todo.title" 
+            (keyup)="handleEditkeyUp($event)"
+            (keyup.enter)="saveEdit(todo, $event)"
+            (blur)="saveEdit(todo, $event)">
+        </li>
+      </ul>
+    </section>
+    <!-- 
+      ⏹*ngIf="todos.length > 0"
+         使用了Angular的if表达式,只有当todos任务列表中有数据的情况下,footer才会被渲染
+         我们在footer外侧还包裹了一层ng-template标签,因此此处的*ngIf其实可以不写
+     -->
+    <footer class="footer" *ngIf="todos.length">
+      <!-- This should be `0 items left` by default -->
+      <span class="todo-count"><strong>{{ remaningCount }}</strong> item left</span>
+      <!-- Remove this if you don't implement routing -->
+      <ul class="filters">
+        <li>
+          <a [ngClass]="{
+            selected: visibility === 'all'
+          }" href="#/">All</a>
+        </li>
+        <li>
+          <a [ngClass]="{
+            selected: visibility === 'active'
+          }" href="#/active">Active</a>
+        </li>
+        <li>
+          <a [ngClass]="{
+            selected: visibility === 'completed'
+          }" href="#/completed">Completed</a>
+        </li>
+      </ul>
+      
+      <button (click)="clearAllDone()" class="clear-completed">Clear completed</button>
+    </footer>
+  </ng-template>
+</section>
+<footer class="info">
+  <p>Double-click to edit a todo</p>
+  <!-- Remove the below line ↓ -->
+  <p>Template by <a href="http://sindresorhus.com">Sindre Sorhus</a></p>
+  <!-- Change this out with your name and url ↓ -->
+  <p>Created by <a href="http://todomvc.com">you</a></p>
+  <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
+</footer>
