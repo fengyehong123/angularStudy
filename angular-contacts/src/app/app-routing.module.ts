@@ -8,6 +8,9 @@ import {LayoutComponent} from './layout/layout.component';
 import {ContactListComponent} from './contact-list/contact-list.component';
 import {ContactNewComponent} from './contact-new/contact-new.component';
 import {ContactEditComponent} from './contact-edit/contact-edit.component';
+import {TagNewComponent} from './tag-new/tag-new.component';
+import {TagEditComponent} from './tag-edit/tag-edit.component';
+import {TagListComponent} from './tag-list/tag-list.component';
 
 // 路由导航对象
 const routes: Routes = [
@@ -41,6 +44,24 @@ const routes: Routes = [
         path: 'edit',
         component: ContactEditComponent
       }
+    ]
+  },
+  {
+    path: 'tags',
+    component: LayoutComponent,
+    children: [
+      {
+        path: '',
+        component: TagListComponent
+      },
+      {
+        path: 'new',
+        component: TagNewComponent
+      },
+      {
+        path: 'edit',
+        component: TagEditComponent
+      },
     ]
   },
   {

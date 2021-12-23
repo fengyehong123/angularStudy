@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import {FormsModule} from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -33,7 +34,9 @@ import { LayoutComponent } from './layout/layout.component';
   imports: [
     BrowserModule,
     // 路由模块
-    AppRoutingModule
+    AppRoutingModule,
+    // 表单模块(双向数据绑定需要引入表单模块)
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

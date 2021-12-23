@@ -1,11 +1,76 @@
 <div class="container">
-  <form class="form-signin">
+  <!-- 
+    ⏹ 给form表单绑定一个submit事件
+    ⏹ #formObj="ngForm"
+      模板引用变量,#formObj是我们为模板引用变量自定义的变量名
+   -->
+  <form #formObj="ngForm" class="form-signin" (submit)="signup()">
     <h2 class="form-signin-heading">Please sign up</h2>
     <label for="inputEmail" class="sr-only">Email address</label>
-    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+    <!-- 
+      ⏹ [(ngModel)]="singupForm.email"双向数据绑定
+      ⏹ Angular表单双向数据绑定会为绑定的元素提供一些特殊的类名
+          我们可以利用此特性,在css中定义相应的样式,根据表单的状态触发相应的css
+        .ng-touched
+          表单被碰过: true
+        .ng-untouched
+          表单没有被碰过: true
+        .ng-valid
+          有效的: true
+        .ng-invalid
+          无效的: true
+          因为在input中添加了required属性,因此当没有输入的时候.ng-invalid就会为true
+        .ng-dirty
+          表单被输入过数据: true
+        .ng-pristine
+          表单虽然碰过,但是没有输入过数据: true
+      ⏹ #email
+        模板引用变量
+      ⏹ email="true"
+        开启邮箱校验规则
+     -->
+    <input type="email" id="inputEmail" name="email" class="form-control"
+     placeholder="Email address" required autofocus autocomplete email="true"
+     [(ngModel)]="singupForm.email"
+     #email="ngModel">
+    <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
+      <div *ngIf="email.errors.required">
+        邮箱为必填项
+      </div>
+      <div *ngIf="email.errors.email">
+        邮箱格式不正确
+      </div>
+    </div>
+
     <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+    <input type="password" id="inputPassword" name="password" class="form-control" 
+     placeholder="Password" required autocomplete
+     minlength="6"
+     maxlength="18"
+     [(ngModel)]="singupForm.password"
+     #password="ngModel">
+     <!-- 
+      如果password是有效的或者password是干净的没有被碰过的
+      那个下面的div就处于隐藏状态,否则显示出来
+     -->
+     <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
+      <div *ngIf="password.errors.required">
+        密码为必填项
+      </div>
+      <div *ngIf="password.errors.minlength">
+        密码长度最小为6位
+      </div>
+    </div>
+
+    <!-- 
+      ⏹ [disabled]="!formObj.form.valid"
+        如果表单中的项目没有通过验证的话按钮是禁用的
+        只有全部通过验证才可以点击
+     -->
+    <button class="btn btn-lg btn-primary btn-block"
+     [disabled]="!formObj.form.valid"
+     type="submit"
+     >Sign up</button>
   </form>
   <p class="info"><a href="signin.html">Already have an account? Login here.</a></p>
 </div>
