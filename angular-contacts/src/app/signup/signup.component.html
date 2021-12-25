@@ -41,6 +41,9 @@
         邮箱格式不正确
       </div>
     </div>
+    <div *ngIf="error_msg" class="alert alert-danger">
+      {{error_msg}}
+    </div>
 
     <label for="inputPassword" class="sr-only">Password</label>
     <input type="password" id="inputPassword" name="password" class="form-control" 

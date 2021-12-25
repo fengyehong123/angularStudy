@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+// 引入我们自定义的路由守卫模块
+import {AuthGuard} from './auth-guard.service';
+
 // 引入我们自定义的组件
 import {SigninComponent} from './signin/signin.component';
 import {SignupComponent} from './signup/signup.component';
@@ -29,6 +32,12 @@ const routes: Routes = [
   {
     path: 'contacts',
     component: LayoutComponent,
+    /*
+      路由守卫
+      在导航之前先进入路由守卫模块
+      如果满足条件,有相应的权限才进行导航
+    */
+    canActivate: [AuthGuard],
     // 子路由
     children: [
       {
@@ -49,6 +58,8 @@ const routes: Routes = [
   {
     path: 'tags',
     component: LayoutComponent,
+    // 路由守卫,通过认证才能继续访问
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -76,6 +87,8 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  // 引入我们自定义的路由守卫组件
+  providers: [AuthGuard]
 })
 export class AppRoutingModule { }
