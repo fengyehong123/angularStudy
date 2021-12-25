@@ -5,10 +5,10 @@
       模板引用变量,#formObj是我们为模板引用变量自定义的变量名
    -->
   <form #formObj="ngForm" class="form-signin" (submit)="signup()">
-    <h2 class="form-signin-heading">Please sign up</h2>
+    <h2 class="form-signin-heading">请注册</h2>
     <label for="inputEmail" class="sr-only">Email address</label>
     <!-- 
-      ⏹ [(ngModel)]="singupForm.email"双向数据绑定
+      ⏹ [(ngModel)]="signupForm.email"双向数据绑定
       ⏹ Angular表单双向数据绑定会为绑定的元素提供一些特殊的类名
           我们可以利用此特性,在css中定义相应的样式,根据表单的状态触发相应的css
         .ng-touched
@@ -31,7 +31,7 @@
      -->
     <input type="email" id="inputEmail" name="email" class="form-control"
      placeholder="Email address" required autofocus autocomplete email="true"
-     [(ngModel)]="singupForm.email"
+     [(ngModel)]="signupForm.email"
      #email="ngModel">
     <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
       <div *ngIf="email.errors.required">
@@ -50,7 +50,7 @@
      placeholder="Password" required autocomplete
      minlength="6"
      maxlength="18"
-     [(ngModel)]="singupForm.password"
+     [(ngModel)]="signupForm.password"
      #password="ngModel">
      <!-- 
       如果password是有效的或者password是干净的没有被碰过的
@@ -75,5 +75,10 @@
      type="submit"
      >Sign up</button>
   </form>
-  <p class="info"><a href="signin.html">Already have an account? Login here.</a></p>
+  <p class="info">
+    <!-- 
+      ⏹ Angular中的路由提供的特殊导航链接属性
+     -->
+    <a routerLink="/signin">已经有账户?点击这里登录</a>
+  </p>
 </div>

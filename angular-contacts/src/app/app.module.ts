@@ -3,7 +3,9 @@ import { NgModule } from '@angular/core';
 // 数据双向绑定用到的模块
 import {FormsModule} from '@angular/forms';
 // http请求模块
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+// 引入我们自定义的全局拦截器
+import {GlobalInterceptor} from './global.interceptor';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -43,7 +45,13 @@ import { LayoutComponent } from './layout/layout.component';
     // http请求模块
     HttpClientModule
   ],
-  providers: [],
+  providers: [{
+    // 使用http请求拦截器
+    provide: HTTP_INTERCEPTORS,
+    // 使用我们自己定义的http请求拦截器,确保我们发送的请求携带上token
+    useClass: GlobalInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

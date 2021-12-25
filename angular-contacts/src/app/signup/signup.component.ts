@@ -12,7 +12,7 @@ import {Router} from '@angular/router';
 export class SignupComponent implements OnInit {
 
   // 表单对象
-  singupForm = {
+  signupForm = {
     email: '',
     password: '',
   };
@@ -39,7 +39,7 @@ export class SignupComponent implements OnInit {
   signup() {
 
     // 获取表单数据
-    const formData = this.singupForm;
+    const formData = this.signupForm;
     // 发起http注册请求
     this.http.post('http://localhost:3000/users', formData).toPromise().then((data: any) => {
       // 用户邮箱没有被占用,错误消息为空
@@ -50,6 +50,8 @@ export class SignupComponent implements OnInit {
         其他页面可以获取该token,并携带该token进行请求验证,从而获取访问权限
       */
       window.localStorage.setItem('auth_token', data.token);
+      // 将用户名保存到浏览器中
+      window.localStorage.setItem('user_info', JSON.stringify(data.user));
 
       // 当用户注册成功之后,使用路由跳转到首页
       this.router.navigate(['/']);
