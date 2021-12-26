@@ -11,6 +11,9 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 })
 export class ContactListComponent implements OnInit {
 
+  // 联系人列表
+  contacts = [];
+
   constructor(
     private http: HttpClient,
     private router: Router
@@ -19,7 +22,9 @@ export class ContactListComponent implements OnInit {
   ngOnInit() {
 
     this.http.get('http://localhost:3000/contacts').toPromise().then((data: any) => {
-      console.table(data);
+
+      // 后端接口返回的数据放到联系人列表中
+      this.contacts = data;
     }).catch(err => {
 
     });
