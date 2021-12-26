@@ -15,7 +15,10 @@
       <li><a href="#">Separated link</a></li>
     </ul>
   </div>
-  <a class="btn btn-success pull-right" href="contact-new.html">新增联系人</a>
+  <!-- 
+    routerLink: Angular提供的属性
+   -->
+  <a class="btn btn-success pull-right" routerLink="/contacts/new">新增联系人</a>
   <table class="table table-striped">
     <thead>
       <tr>
@@ -36,8 +39,13 @@
         <td>{{item.phone}}</td>
         <td><span class="label label-info">朋友</span></td>
         <td>
-          <a href="edit.html">编辑</a>
-          <a href="#">删除</a>
+          <!-- 
+            Angular中的动态路径传递参数
+            1. 路由模块中的路径配置为: path: 'edit/:id'
+            2. routerLink的语法如下
+           -->
+          <a [routerLink]="['/contacts/edit', item.id]">编辑 </a>
+          <a href="#" (click)="deleteContactById(item.id, $event)">删除</a>
         </td>
       </tr>
     </tbody>
