@@ -18,7 +18,7 @@ export class GlobalInterceptor implements HttpInterceptor {
     const token = window.localStorage.getItem('auth_token');
 
     // 将原有的request复制一份,然后再新对象上的请求头中添加token
-    const authReq = req.clone({headers: req.headers.set('X-Access-Token', token)});
+    const authReq = req.clone({headers: req.headers.set('X-Access-Token', token || '')});
     return next.handle(authReq);
   }
 }
