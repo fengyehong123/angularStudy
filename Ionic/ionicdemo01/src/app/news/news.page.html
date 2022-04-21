@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>news</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <!-- 遍历组件中的数据 -->
+    <ion-item *ngFor="let item of list">
+      <ion-label>{{item}}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
