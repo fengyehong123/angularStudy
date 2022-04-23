@@ -5,6 +5,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
+    // 页面懒加载,只有用到这个模块的时候,才会加载
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   },
   {
